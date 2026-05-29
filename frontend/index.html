@@ -69,10 +69,10 @@ async function addTask() {
             Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
-            title: title.value,
-            description: description.value,
-            status: status.value,
-            due_date: due_date.value
+            title: document.getElementById('title').value,
+            description: document.getElementById('description').value,
+            status: document.getElementById('status').value,
+            due_date: document.getElementById('due_date').value
         })
     });
 
