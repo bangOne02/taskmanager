@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+</head>
+<body>
+
+<h1>Task Manager</h1>
+
+<input type="text" id="title" placeholder="Title">
+<input type="text" id="description" placeholder="Description">
+
+<select id="status">
+    <option value="todo">Todo</option>
+    <option value="in-progress">In Progress</option>
+    <option value="done">Done</option>
+</select>
+
+<input type="date" id="due_date">
+
+<button onclick="addTask()">Tambah</button>
+
+<hr>
+
+<div id="taskList"></div>
+
+<script>
+
+const token = localStorage.getItem('token');
+
+async function getTasks() {
+
+    const res = await fetch('http://localhost:3000/api/tasks', {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    const tasks = await res.json();
+
+    let html = '';
+
+    tasks.forEach(task => {
+
+        html += `
+            <div>
+                <h3>${task.title}</h3>
+                <p>${task.description}</p>
+                <p>${task.status}</p>
+                <p>${task.due_date}</p>
+
+                <button onclick="deleteTask(${task.id})">
+                    Hapus
+                </button>
+            </div>
+            <hr>
+        `;
+    });
+
+    taskList.innerHTML = html;
+}
+
+async function addTask() {
+
+    await fetch('http://localhost:3000/api/tasks', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            title: title.value,
+            description: description.value,
+            status: status.value,
+            due_date: due_date.value
+        })
+    });
+
+    getTasks();
+}
+
+async function deleteTask(id) {
+
+    await fetch(`http://localhost:3000/api/tasks/${id}`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    getTasks();
+}
+
+getTasks();
+
+</script>
+
+</body>
+</html>
