@@ -68,6 +68,7 @@ async function addTask() {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
         },
+        
         body: JSON.stringify({
             title: document.getElementById('title').value,
             description: document.getElementById('description').value,
