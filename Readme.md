@@ -1,6 +1,8 @@
 ---
 generator: Riched20 10.0.19041
 ---
+Nama : Mubassirin
+Posisi : Fullstack Developer
 
 **Nomor 1 :**
 
